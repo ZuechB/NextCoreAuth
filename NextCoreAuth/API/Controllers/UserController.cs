@@ -24,7 +24,7 @@ namespace API.Controllers
             var signedInUser = await userService.GetSignedInUser();
             if (signedInUser == null)
             {
-                return Ok(null);
+                return NoContent();
             }
             else
             {

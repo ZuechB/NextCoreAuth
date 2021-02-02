@@ -33,8 +33,8 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //if (_currentEnvironment.IsDevelopment())
-            //{
+            if (_currentEnvironment.IsDevelopment())
+            {
                 services.AddDbContext<DatabaseContext>(options =>
                 {
                     options.UseSqlServer(DbConnectionStrings.DevelopmentConnectionString,
@@ -49,7 +49,7 @@ namespace API
                     options.EnableSensitiveDataLogging();
 
                 }, ServiceLifetime.Scoped);
-            //}
+            }
 
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -77,13 +77,12 @@ namespace API
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "https://localhost:44374";
+                    options.Authority = _appsettings.Authority;
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateAudience = false
                     };
-                    //options.Audience = "wewantdoughnuts";
                 });
 
 

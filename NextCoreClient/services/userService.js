@@ -1,14 +1,13 @@
 import { UserManager, WebStorageStateStore } from 'oidc-client';
 import { CookieStateStore } from '../services/cookieStorage';
-//import { parseCookies, setCookie, destroyCookie } from "nookies";
 
 const config = {
-    authority: "https://localhost:44374",
-    client_id: "wewantdoughnuts",
-    redirect_uri: "http://localhost:3000/signin-oidc",
+    authority: process.env.AUTHORITYURI,
+    client_id: process.env.client_id,
+    redirect_uri: process.env.WebsiteBaseUri + "/signin-oidc",
     response_type: "id_token token",
-    scope: "openid profile email doughnutapi",
-    post_logout_redirect_uri: "http://localhost:3000/signout-oidc"
+    scope: "openid profile email " + process.env.Scope,
+    post_logout_redirect_uri: process.env.WebsiteBaseUri + "/signout-oidc"
 };
 
 export function GetUser(ctx = null)

@@ -191,6 +191,11 @@ namespace IdentityServerHost.Quickstart.UI
             return View(vm);
         }
 
+        public IActionResult CreateAccount()
+        {
+            return View();
+        }
+
         
         /// <summary>
         /// Show logout page

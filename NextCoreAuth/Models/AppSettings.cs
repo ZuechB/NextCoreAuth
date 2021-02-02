@@ -9,7 +9,6 @@ namespace Models
         public SendGridSettings SendGrid { get; set; }
     }
 
-
     public class SendGridSettings
     {
         public string APIKey { get; set; }

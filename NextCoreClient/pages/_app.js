@@ -1,16 +1,15 @@
 import App from 'next/app'
 import React from 'react'
 import '../styles/globals.css'
-import * as apiService from '../services/apiService'
+import apiService from '../services/apiService'
   
 class MyApp extends App {
 
   static async getInitialProps({ Component, ctx }) {
 
     let pageProps = {};
-    const currentUser = await apiService.getSignedInUser(ctx);
 
-    console.log(currentUser);
+    const currentUser = await apiService(ctx).GetCurrentUser();
 
     if (Component.getInitialProps) {
       ctx.currentUser = currentUser;

@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Models;
 using Models.Users;
 using Services;
 using Services.Context;
@@ -84,6 +85,15 @@ namespace IDP
             services.AddTransient<IPersistedGrantStore, PersistedGrantStore>();
             services.AddTransient<IProfileService, IdentityClaimsProfileService>();
             services.AddScoped<IMailService, MailService>();
+
+
+            // to be able to access the app settings for each stage
+            var appSettings = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettings);
+
+            var _appsettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
+
+
 
             services.AddCors();
             services.AddTransient<ICorsPolicyProvider, CorsPolicyManager>();

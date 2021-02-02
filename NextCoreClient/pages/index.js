@@ -1,23 +1,15 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import { signinRedirect, signoutRedirect } from '../services/userService'
-//import { useEffect, useState } from 'react'
-import * as apiService from '../services/apiService'
+import apiService from '../services/apiService'
 
 export default function Home({currentUser}) {
 
-  const LoginToApp = () => {
-    signinRedirect();
-  }
-
-  const SignOutOfApp = () => {
-    signoutRedirect();
-  }
-  
   const GetUserInfo = async () => {
-
-    const user = await apiService.getSignedInUser();
-    alert(user.firstName);
+    let user = await apiService().get("/user");
+    if (user != null && user.status == 200)
+    {
+      alert(user.data.firstName + " " + user.data.lastName);
+    }
   }
 
   return (
@@ -29,12 +21,12 @@ export default function Home({currentUser}) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
+
           {currentUser != null &&
             <>
-            <span>Welcome {currentUser.firstName}!</span>
+            <span>Welcome home {currentUser.firstName}!</span>
             <br/>
-            <button onClick={() => SignOutOfApp()}>Signout</button>
-
+            <button onClick={async () => await apiService().logout()}>Signout</button>
 
             <button onClick={() => GetUserInfo()}>Request user information from database</button>
             </>
@@ -42,12 +34,12 @@ export default function Home({currentUser}) {
 
           {currentUser == null &&
             <>
-            <span>Login to get started</span>
+            <span>Login to get started or <br/>create an account</span>
             <br/>
-            <button onClick={() => LoginToApp()}>Login</button>
+            <button onClick={async () => await apiService().login()}>Login</button>
+            <button onClick={() => LoginToApp()}>Create Account</button>
             </>
           }
-
 
         </h1>
 
